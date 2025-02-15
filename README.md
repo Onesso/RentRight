@@ -16,4 +16,6 @@ rent right business logic
 
 6. On the root create Dockerfile(contains a set of instructions to automate the creation of a Docker image)
 
+7. On the root create .dockerignore file and add details
+
 
