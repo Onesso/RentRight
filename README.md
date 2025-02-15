@@ -20,4 +20,13 @@ rent right business logic
 
 8. on the root create docker-compose.yml (is used to define and manage multi-container Docker applications.It automate container creation. it ensure that services starts in the correct order)
 
+9. Linting and Tests (Linting is the process of analyzing code for potential errors, style violations, and best practices) install flake8 package and runned through docker compose; to solve linting errors we work from bottom to top for testing we use Django test suite (it is Django's built-in framework for writing and running automated tests on models, views, forms and APIs)
+
+on the root create requirements.dev.txt file; the reason to create a new requirements file is so as to add dependencies that is only used for development.
+
+And Modified docker-compose.yml , Dockerfile then build {docker-compose build} then we are going to tell flake8 to exclude othe files since by default django will have many linting errors
+
+inside the app directory create .flake8 file and inside it list the exclusions.
+on the terminal run: docker-compose run --rm app sh -c "flake8"
+
 

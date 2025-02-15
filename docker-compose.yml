@@ -4,8 +4,8 @@ services: #the services contains app that is going to run our application
   app:
     build:
       context: . #means we are building in the root directory
-      #args:
-        #- DEV=true
+      args:
+        - DEV=true   #it is set to true for during the development face so as to be able to access requirements.dev.txt
     ports:
       - "8000:8000" #mapping port 8000 of our local machine to inside our docker container
     volumes:
