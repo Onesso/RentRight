@@ -1,0 +1,14 @@
+#version: "3.9" #this is to maintain the version of out configuration (info the version is not required from the yaer 2021)
+
+services: #the services contains app that is going to run our application
+  app:
+    build:
+      context: . #means we are building in the root directory
+      #args:
+        #- DEV=true
+    ports:
+      - "8000:8000" #mapping port 8000 of our local machine to inside our docker container
+    volumes:
+      - ./app:/app #mapping directories from our system into directories of the container so that the update we make to our code in the local machine be reflected in our container, running the container in real time so we dont have to rebuild our container everytime we update our code.
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"

@@ -18,4 +18,6 @@ rent right business logic
 
 7. On the root create .dockerignore file and add details
 
+8. on the root create docker-compose.yml (is used to define and manage multi-container Docker applications.It automate container creation. it ensure that services starts in the correct order)
+
 
