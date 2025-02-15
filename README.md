@@ -29,4 +29,7 @@ And Modified docker-compose.yml , Dockerfile then build {docker-compose build} t
 inside the app directory create .flake8 file and inside it list the exclusions.
 on the terminal run: docker-compose run --rm app sh -c "flake8"
 
+10. Create the django project by runining: docker-compose run --rm app sh -c "django-admin startproject app ."
+the dot is to make sure it run in the current directory
+
 
