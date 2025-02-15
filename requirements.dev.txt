@@ -1,0 +1,6 @@
+#we are separating the the developemnt dependencies with the project dependencies; we actually do not need the testing dependencies on the server after deploying
+
+flake8>=3.9.2,<3.10
+
+
+
