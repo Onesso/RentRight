@@ -33,3 +33,29 @@ on the terminal run: docker-compose run --rm app sh -c "flake8"
 the dot is to make sure it run in the current directory
 
 
+### ** Configure Github Actions
+github action is an automated tool that allows us to run jobs when code changes and automate task. it is activate by a trigger example push to github. the problem is that there is pricing.
+Dockerhub allows 100/6h for anonymous users
+
+    Trigger      =>        Job       =>     Result
+(Push to GitHub)    (Run unit tests)    (Success/fail)
+
+                prerequisites
+        create an account with hub.docker.com
+        Use docker login during job
+
+
+1. Create a config file at .github/workflows/checks.yml
+
+in the checks.yml write the jobs (test-lint) that is going to be performed when triggered.
+
+    Login to Docker Hub: Uses the docker/login-action@v1 action to log in to Docker Hub using the credentials stored in the repository secrets (DOCKERHUB_USER and DOCKERHUB_TOKEN).
+
+    Checkout: Uses the actions/checkout@v2 action to check out the repository's code.
+
+    Test: Runs the command docker compose run --rm app sh -c "python manage.py test" to execute the tests inside the Docker container.
+
+    Lint: Runs the command docker compose run --rm app sh -c "flake8" to perform linting checks inside the Docker container.
+
+    note: on ubuntu-20.04 that we are running the job, it comes with docker and docker-compose pre-installed.
+
