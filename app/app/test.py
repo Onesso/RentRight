@@ -8,3 +8,7 @@ class TestCalc(SimpleTestCase):
     def test_add(self):
         responce = calc.add(3,8)
         self.assertEqual(responce, 11)
+
+    def test_subtract(self):
+       responce = calc.subtract(10, 5) 
+       self.assertEqual(responce, 5)
