@@ -84,3 +84,36 @@ outline of Writing tests
 SimpleTestCase example
         create calc.py inside app/app dir, write an addition function inside, this is the function we'll be testing
         create test.py inside app/app dir, wite the write the test that will test the calc.py function.
+
+
+Unittest.mock => is a situation where you a different code or function than the intended one to prevent wastage of resources
+        (MagicMock/Mock) = Replaces real objects
+        patch - Overrides code for test
+
+APIClient based on the django TestClient -> we can make requests, check result and even override authentification
+
+Overview of using the APIClient
+        1. import APIClient
+        2. Create TestClient
+        3. Make request
+        4. Check result
+
+Problems associated with testting
+        indetation of different test methods
+        every test method must start with a prefix "test"        
+        when grouping test in a directory an __init.py__ is compulsary
+        ImportError - this occurs when there is both test directory and test.py
+
+
+### ** Database configuration
+
+                        architecture:
+
+                          DOCKER COMPOSE 
+    Database(PostgreSQL) <|             |> APP(Django)
+
+Docker compose will set the network connectivity between the application and database   
+Volumes - this is how we store persistent data using docker compose. It maps a directory in container to our local machine
+
+1. open docker-compose.yml and add the database service take two services i.e. app(django) and db(PostgreSQL)
+    the enviroment variables used in the app and db is for establish a connection to the database.

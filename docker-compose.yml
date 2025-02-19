@@ -12,3 +12,21 @@ services: #the services contains app that is going to run our application
       - ./app:/app #mapping directories from our system into directories of the container so that the update we make to our code in the local machine be reflected in our container, running the container in real time so we dont have to rebuild our container everytime we update our code.
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changeme
+    depends_on:
+      - db
+  db:
+    image: postgres:13-alpine #this is the image we are going to use for our database
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+   
+volumes:
+  dev-db-data:
