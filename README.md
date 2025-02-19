@@ -117,3 +117,45 @@ Volumes - this is how we store persistent data using docker compose. It maps a d
 
 1. open docker-compose.yml and add the database service take two services i.e. app(django) and db(PostgreSQL)
     the enviroment variables used in the app and db is for establish a connection to the database.
+
+        steps on how django connects to the database
+            1. Configure Django - tell django how to connect
+            2. install database adaptor dependencies - tools django uses to connect
+            3. Update python requirements (includes the postgres adaptor)
+
+            NOTE: Before the connection django need to know 
+                    1.engine
+                    2.Hostname
+                    3.Port number
+                    4.Databse name
+                    5.username
+                    6.password
+                All this are defined in the settings.py file
+
+            Environment variables
+
+                why use environment variables?
+                    1. pull configuration values 
+                    2. Easily passed to Docker
+                    3. Used in local dev or production
+                    4. Single place to configure project
+                    5. Easy to do with Python
+
+    Psycopg2 (PostgreSQL adaptor for python)
+        installation option
+            1. psycopg2-binary (OK for local development not good for production)
+            2. Psycopg2 (Compiles from source (linux, windows), require addition dependencies, easy to install in docker)
+        
+        for this project we'll be using Psycopg2 and the followwing are the list of package dependencies
+            1. C compiler
+            2. python3-dev
+            4. libpq-dev
+
+            NOTE for Alpine our operating system we'll be using
+                1. postgres-client
+                2. build-base
+                3. postgresql-dev
+                4. musl-dev      
+                NOTE: the last three pacges are only used for installation not running, therefore we'll remove later
+2. Open the Dockerfile - on RUN we'll install postgresql-client line:18 and in --virtual .tmp-build-deps install the other three; line:19 and 20
+    on line:22 we install the postgres-client which is listed in the requirements
