@@ -59,3 +59,28 @@ in the checks.yml write the jobs (test-lint) that is going to be performed when 
 
     note: on ubuntu-20.04 that we are running the job, it comes with docker and docker-compose pre-installed.
 
+### ** Test Driven Development (TDD)
+django comes with Django test framework which built on top of unittest module from python. and TestCase classes out of the box, when you create an app in django it comes with a file test.py nevertheless you can create a directory for testing and in it __init__.py is a must. The directory and test.py can not exist in the same application. For the directory we can have different test but must be name in the following convection test_module_one.py
+
+Test Database; it test code that uses the DB, It creates a flash DB that is used to run test, clear data and again run test.
+
+
+Test classes
+
+    a. SimpleTestCase - usefull when no database is required for the   test
+
+    b. TestCase - usually when code requires to read the database
+
+outline of Writing tests 
+
+    a. import test class (either SimpleTestCase or TestCase).
+    b. import the object you want to test (code you are testing).
+    c. define the test class and as a parameter (include either SimpleTestCase or TestCase).
+    d. add test method/function.
+    e. Setup inputs.
+    f. Exercute code to be tested.
+    g. Check output.
+
+SimpleTestCase example
+        create calc.py inside app/app dir, write an addition function inside, this is the function we'll be testing
+        create test.py inside app/app dir, wite the write the test that will test the calc.py function.
