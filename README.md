@@ -158,4 +158,7 @@ Volumes - this is how we store persistent data using docker compose. It maps a d
                 4. musl-dev      
                 NOTE: the last three pacges are only used for installation not running, therefore we'll remove later
 2. Open the Dockerfile - on RUN we'll install postgresql-client line:18 and in --virtual .tmp-build-deps install the other three; line:19 and 20
-    on line:22 we install the postgres-client which is listed in the requirements
+    on line:22 we install the postgres-client which is listed in the requirement
+3. after finishing step 2 you should run docker-compose down then docker-compose build to install all the requirements.
+
+4. open settings.py to configure the database import os, remove db.sqllite file and update the DATABASES section
