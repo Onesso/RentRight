@@ -162,3 +162,12 @@ Volumes - this is how we store persistent data using docker compose. It maps a d
 3. after finishing step 2 you should run docker-compose down then docker-compose build to install all the requirements.
 
 4. open settings.py to configure the database import os, remove db.sqllite file and update the DATABASES section
+
+# Solving race condition
+because we are using the "depends_on" in the app service of the container, the "depends_on" only ensures that db service is on, but not the actual postgres is running.
+the db service will first start and when it finishes the app service will then start due to the "depends_on", while the app service is starting on the other side postgres will then start but it takes 
+long i.e. the qpp service will finish starting then django start and finishes before postgres is ready, django will then crash since the database was not ready.
+
+The solution is for django to "wait for db" a fucntion that will continually the availabity and readiness of the Databse to do this we are going to create a custom Django management command
+
+a. create a new app called core where we are going where we we'll write the wait_for_db command
