@@ -171,3 +171,11 @@ long i.e. the qpp service will finish starting then django start and finishes be
 The solution is for django to "wait for db" a fucntion that will continually the availabity and readiness of the Databse to do this we are going to create a custom Django management command
 
 a. create a new app called core where we are going where we we'll write the wait_for_db command
+b. on the core app remove the test.py replace it with a test directory and also veiws.py from the core
+
+# write tests wait_for_db function
+Note: customer management functions/command, this are function/command that provide a built-in managemnt command like migrate, runserver and createsuperuser, they are exercuted using python manage.py <command>, since it is a management command
+
+a. inside core, create management/command/wait_for_db.py in each directory an __init__.py file is included.
+b. Due to test driven develoment, write a test inside the test directory,namely: test_commands.py for wait_for_db command, two command are ritten to test whether the database is ready or there is a delay; the test command will be testing then waiting for a few second then test again, we are not going to wait in our unit test because that will slow our test
+c. write the function that checks the connection for database in wait_for_db.py file

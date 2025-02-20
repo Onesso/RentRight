@@ -1,4 +1,5 @@
-"""we'll be using the simpleTestcase since the code does not have a database."""
+"""we'll be using the simpleTestcase,
+ since the code does not have a database."""
 
 
 from django.test import SimpleTestCase
@@ -13,5 +14,5 @@ class TestCalc(SimpleTestCase):
         self.assertEqual(responce, 11)
 
     def test_subtract(self):
-       responce = calc.subtract(10, 5) 
-       self.assertEqual(responce, 5)
+        responce = calc.subtract(10, 5)
+        self.assertEqual(responce, 5)
