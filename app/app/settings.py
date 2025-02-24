@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ebs21d^z)d)_#lwa+5))@+9-)n@quo!%yfy$%r#!)xid3))xdg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -81,7 +81,7 @@ DATABASES = {
         "HOST": os.environ.get("DB_HOST"),
         "NAME": os.environ.get("DB_NAME"),
         "USER": os.environ.get("DB_USER"),
-        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "PASSWORD": os.environ.get("DB_PASS"),
     }
 }
 

@@ -26,7 +26,7 @@ on the root create requirements.dev.txt file; the reason to create a new require
 
 And Modified docker-compose.yml , Dockerfile then build {docker-compose build} then we are going to tell flake8 to exclude othe files since by default django will have many linting errors
 
-inside the app directory create .flake8 file and inside it list the exclusions.
+inside the app directory create .dockerignore file and inside it list the exclusions.
 on the terminal run: docker-compose run --rm app sh -c "flake8"
 
 10. Create the django project by runining: docker-compose run --rm app sh -c "django-admin startproject app ."
@@ -179,3 +179,32 @@ Note: customer management functions/command, this are function/command that prov
 a. inside core, create management/command/wait_for_db.py in each directory an __init__.py file is included.
 b. Due to test driven develoment, write a test inside the test directory,namely: test_commands.py for wait_for_db command, two command are ritten to test whether the database is ready or there is a delay; the test command will be testing then waiting for a few second then test again, we are not going to wait in our unit test because that will slow our test
 c. write the function that checks the connection for database in wait_for_db.py file
+
+### Migrations 
+in django you do not need to write the actual querries.
+Django comes with (Django ORM) Object Relation Mapper; this is an abstration layer that handles database structure and changes therefore in django you can use any database and the ORM we'll handle the rest.
+
+            using the ORM
+
+                Define models => Generate migration files => Setup databse => Store data
+
+                NOTE: you only need to define the models and the reset is handle by django ORM
+
+Each model is mapped to a table, Models containe: Name, Fields, Other metadata, Custom Python Logic.
+Once you have created the models you do the migrations
+
+            Creating migrations
+
+            a. Ensure app is enabled in settings.py
+            b. Use Django CLI 
+                python manage.py makemigrations
+
+            Applying migrations
+
+            a. Use Django CLI
+                python manage.py migrate
+NOTE: due to automation all the migration command will be written inside the docker-compose inside command
+
+Open docker-compose.yml app -> command -> write the migration commands together with the wait_for_db
+
+

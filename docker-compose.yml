@@ -5,13 +5,15 @@ services: #the services contains app that is going to run our application
     build:
       context: . #means we are building in the root directory
       args:
-        - DEV=true   #it is set to true for during the development face so as to be able to access requirements.dev.txt
+        - DEV=true #it is set to true for during the development face so as to be able to access requirements.dev.txt
     ports:
       - "8000:8000" #mapping port 8000 of our local machine to inside our docker container
     volumes:
       - ./app:/app #mapping directories from our system into directories of the container so that the update we make to our code in the local machine be reflected in our container, running the container in real time so we dont have to rebuild our container everytime we update our code.
     command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py wait_for_db &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     environment:
       - DB_HOST=db
       - DB_NAME=devdb
@@ -27,6 +29,6 @@ services: #the services contains app that is going to run our application
       - POSTGRES_DB=devdb
       - POSTGRES_USER=devuser
       - POSTGRES_PASSWORD=changeme
-   
+
 volumes:
   dev-db-data:
