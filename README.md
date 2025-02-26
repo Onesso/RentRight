@@ -256,3 +256,8 @@ NOTE: after settings.py run docker-compose run --rm app sh -c "python manage.py 
       migrations are created automatic
 
 4. Validation to ensure that users are created with email address. on test_models create create a method that will raise an error if a user is to be created without an email
+
+        Summary: in this section: created a custom user model
+                                  Configured django to use the custom user model that we created
+                                  Handle normalising email
+                                  Handle encrypting passwords
