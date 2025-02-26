@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ebs21d^z)d)_#lwa+5))@+9-)n@quo!%yfy$%r#!)xid3))xdg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -128,3 +128,5 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'core.User' #we are setting the Auth_User_Model configuration yaani out of all those models choose the User for authentication
