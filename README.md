@@ -246,7 +246,7 @@ How to create a customise user model
 
 Before creating our user model we'll create a unit test
 1. navigate to core/tests/ and create file test_model.py the test class of creating a user is written.
-2. navigate to core/models.py create the model User for adding user to the system.
+2. navigate to core/models.py create the model User for adding user to the system. And also create a user
 3. navigate to app/app/settings.py define the custom User Model and set the Auth_User_Model configuration
 
 NOTE: after settings.py run docker-compose run --rm app sh -c "python manage.py wait_for_db && python manage.py migrate" which will throw error: InconsistentMigrationHistory.  this is because you had already made a migration before
@@ -254,3 +254,5 @@ NOTE: after settings.py run docker-compose run --rm app sh -c "python manage.py 
       which we'll work this time.
 
       migrations are created automatic
+
+4. Validation to ensure that users are created with email address. on test_models create create a method that will raise an error if a user is to be created without an email

@@ -5,17 +5,20 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, #contains functionality for the authentification system but not the fields
     PermissionsMixin, #contains functionality for the permission and fields that are needed for the permission feature
-    BaseUserManager,
+    BaseUserManager, #handles creation of user and superusers
 )
 
 """create user model manager"""
 class UserManager(BaseUserManager):
     """Manager for users."""
+
     def create_user(self, email, password=None, **extra_fields):
         """Create, save and return the new user"""
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
+        if not email:
+            raise ValueError("user must have a valid email address")
+        user = self.model(email=self.normalize_email(email), **extra_fields) #creates a new user
+        user.set_password(password) #hashes the password for security
+        user.save(using=self._db) #save the user to the database
 
         return user
 
@@ -30,4 +33,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'email' #specify that the email field is used for authentication
