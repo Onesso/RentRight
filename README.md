@@ -261,3 +261,42 @@ NOTE: after settings.py run docker-compose run --rm app sh -c "python manage.py 
                                   Configured django to use the custom user model that we created
                                   Handle normalising email
                                   Handle encrypting passwords
+
+
+# SETUP DJNAGO ADMIN
+ - django admin is a graphical user interface for models it supports create, read, update, delete
+ - the following are operations that we can do to modify the admin interface
+
+ How to enabled Django admin?
+    a. enable per model
+    b. inside admin.py
+        - admin.site.register(property)
+
+ Customising
+    a. Create class based off ModelAdmin or UserAdmin
+    b. Override/set class variables
+
+ Changing list of objects
+    a. ordering: changes order items appear
+    b. list_display: fields to appear in list
+
+ Add/update pages
+    a. fieldsets: control layout of page
+    b. readonly_fields: fields that can not be changed example last log in time
+
+ Add page
+    a. add_fieldsets: fields displayed only on add page
+
+
+
+1. create app/core/test/test_admin.py => this will be the unittest from the admin section this is where there is list fo test for the admin section; like test to create an admin user who in return can generate a link that will return a list of all common user
+                                      => write another test that will ensure that the admin edit user page works.
+                                      => test create user page
+2. navigate app/core/admin.py => here the code is written to customize the admin inteface; where by it will present users email and name order is by their id
+                              => further write a code that will render the edit page once the email address is clicked
+
+                              NOTE: the two functionality above was to list all user and e able to open a specific user and see details
+                              => adding a support for creating new users
+
+
+                              NOTE: in short the admin.py define how the admin should look and the functionalities that is should support
