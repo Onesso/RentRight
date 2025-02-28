@@ -300,3 +300,37 @@ NOTE: after settings.py run docker-compose run --rm app sh -c "python manage.py 
 
 
                               NOTE: in short the admin.py define how the admin should look and the functionalities that is should support
+
+
+# API DOCUMENTATION
+What is API documentaion? is a detail guide that explain how to use and intergrate an API.
+
+Why do the documentaion? a. APIs are designed for developers to use.
+                         b. Developer need to know how to use it.
+                         c. An API in only as good as its documentation
+
+What to document?   a. Everything needed to use the API
+                    b. Available endpoints (path) e.g. /api/property
+                    c. Supported methods e.g. GET, POST, production
+                    d. Format of payloads (Inputs), (parameters), (Post JSON format)
+                    e. Format of responses (outputs)
+                    d. authentification process
+
+    <u> Automated documentation with djangorestframework </u>
+        => we'll be using a third party library known as drf-spectacular. this library generates a schema (Document in format of JSON or YAML) the schema then allows us to create a browsable web interface, this interface furthers allows us make test request and hnadle authentication
+
+        => OpenAPI Schema; is a Standard for describing APIs, it is popular in the industry, Supported by most API documentation tools in our case swagger, it uses popular data format like YAML and JSON
+
+        NOTE: drf-spectacular it generates a schema -> swagger genearates the GUI
+
+        1.  Install drf-spectacular.
+                => navigate to requirements.txt and add drf-spectacular>=0.15.1,<0.16
+
+        2. run docker-compose build  -> this is to instll drf-spectacular to the container
+
+        3. navigate to app/settings.py to configure drf-spectacular
+
+        4. Configure URLs; navigate to app/app/urls.py  here we'll add the code to generate the schema
+
+        5. Test Swagger documentation on the browser surf 127.0.0.1/api/docs/  => here we'll be able to visualize the GUI made by Swagger from the schema made by openAPI Schema
+
