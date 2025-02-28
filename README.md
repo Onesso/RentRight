@@ -334,3 +334,19 @@ What to document?   a. Everything needed to use the API
 
         5. Test Swagger documentation on the browser surf 127.0.0.1/api/docs/  => here we'll be able to visualize the GUI made by Swagger from the schema made by openAPI Schema
 
+# Building user API
+Design of users API:
+                        User registration
+                        Creating auth token
+                        Viewing/updating profile
+
+Endpoints:
+                        a. user/create/     => POST - for registering new user
+                        b. user/token/      => POST - for creating a new token
+                        c. user/me/         => PUT/PATCH - for updating the profile
+                                            => GET - View profile
+
+1. Run docker-compose run --rm app sh -c "python manage.py startapp user => this is to create a new django app.
+2. Do some cleaning remove: migrations, admin, models and test.
+3. After removing the test file create a new category for test and add __init__.py
+4. Add the user app to settings.py installed apps
