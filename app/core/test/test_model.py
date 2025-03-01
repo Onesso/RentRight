@@ -4,6 +4,7 @@ Test for models
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
+
 class Modeltests(TestCase):
     """Test model"""
 
@@ -22,9 +23,11 @@ class Modeltests(TestCase):
     def test_new_user_email_normalized(self):
         """test if email is normalized for new user"""
         sample_emails = [
+            # the local part retain the uppercase because self.normalize_email
+            # from method BaseUserManager only converts the domain
             ['test1@EXAMPLE.com', 'test1@example.com'],
-            ['Test2@Example.com', 'Test2@example.com'], #the local part retain the uppercase because self.normalize_email(email) from method BaseUserManager only converts the domai
-            ['TEST3@EXAMPLE.COM', 'TEST3@example.com'], #smae to here too.
+            ['Test2@Example.com', 'Test2@example.com'],
+            ['TEST3@EXAMPLE.COM', 'TEST3@example.com'],
             ['test4@example.com', 'test4@example.com'],
         ]
 
@@ -46,4 +49,3 @@ class Modeltests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
-

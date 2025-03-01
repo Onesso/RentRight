@@ -3,25 +3,20 @@ URL Mapping for the user API
 """
 from django.urls import path
 
-from user import views # from the user app; app/user import the view written there
+from user import views  # from the app/user
 
+# Defines the application namespace for the URLs.
+# This is useful when multiple apps in a project have URLs with the same name.
+app_name = 'user'
 
-app_name = 'user' #Defines the application namespace for the URLs. This is useful when multiple apps in a project have URLs with the same name.
-
-# A list of URL patterns for the user app. Each entry in the list maps a URL path to a view.
+# A list of URL patterns for the user app.
+# Each entry in the list maps a URL path to a view.
 urlpatterns = [
-    path('create/', views.CreateUserView.as_view(), name='create'), #Specifies the view that will handle requests to this URL. Converts the class-based view(CreateUserView frow views.py) into a callable function that Django can use to handle the request.
+    # Specifies the view that will handle requests to this URL.
+    # Converts the class-based view(CreateUserView frow views.py)
+    # into a callable function that Django can use to handle the request.
+    path('create/', views.CreateUserView.as_view(), name='create'),
 ]
-
-
-
-
-
-
-
-
-
-
 
 """
 Summary
