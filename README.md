@@ -350,3 +350,18 @@ Endpoints:
 2. Do some cleaning remove: migrations, admin, models and test.
 3. After removing the test file create a new category for test and add __init__.py
 4. Add the user app to settings.py installed apps
+----------------------------------------------------------------------------------------------------------------
+5. Create test for our create user endpoint.
+                NOTE: Public test - Unauthenticated requests example registering a user.
+
+6. Implimenting the API to make the test passed(Implimenting create user API)
+                How do we impliment out create user API?
+                    a.  Add a serializer; a component that converts complex data types (like Django models) into JSON and vice versa.
+                        => create new file; app/user/serializers.py and write the serializer here
+
+                    b.  navigate to app/app/user/views.py  write the views for the user API  N/B: to connect the views to the us=rl we'll modify two files.
+                    c.  Create app/app/user/urls.py here we'll define the URL routing for the user API, it mapps specific URL to corresponging views
+                    d.  navigate to app/app/urls.py 
+
+
+                    NOTE: When we make a http request, it through the url.py, passed in to views.py the CreateUserView class, which interns calls the serializer that creates the object
