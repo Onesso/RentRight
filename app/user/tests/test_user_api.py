@@ -13,6 +13,7 @@ CREATE_USER_URL = reverse('user:create')
 # Generates the URL for the create endpoint in the user app's URL configuration
 # This is the endpoint where new users are created.
 TOKEN_URL = reverse('user:token')
+ME_URL = reverse('user:me')
 
 
 def create_user(**params):
@@ -117,3 +118,54 @@ class PublicUserApiTest(TestCase):
 
         self.assertNotIn("token", res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_retrieve_user_unauthorized(self):
+        """Test authentication is requered for user"""
+        res = self.client.get(ME_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class PrivateUserApiTest(TestCase):
+    """Test API request that require authentication"""
+
+    # mock creating a user and forcing the user to authenticate
+    # the assumption is user are authenticated
+    def setUp(self):
+        self.user = create_user(
+            email="test@example.com",
+            password="testpass123",
+            name="test name"
+        )
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
+
+    # since user is authenticated, make a get request for user details
+    def test_retrive_profile_success(self):
+        """test retriving profile for looged in user"""
+        res = self.client.get(ME_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, {
+            'name': self.user.name,
+            'email': self.user.email,
+        })
+
+    # the ME endpoint is not creating anything so we disable POST
+    def test_post_me_not_allowed(self):
+        """test the POST method is not allowed in ME endpoint"""
+        res = self.client.post(ME_URL, {})
+
+        self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    # the ME endpoint will support the update of profile
+    def test_update_user_profile(self):
+        """Test updating the user profile for authenticated user"""
+        payload = {'name': 'updated name', 'password': 'newpassword123'}
+
+        res = self.client.patch(ME_URL, payload)
+
+        self.user.refresh_from_db()  # to update the db on the new user info
+        self.assertEqual(self.user.name, payload["name"])
+        self.assertTrue(self.user.check_password(payload["password"]))
+        self.assertEqual(res.status_code, status.HTTP_200_OK)

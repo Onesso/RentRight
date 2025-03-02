@@ -388,3 +388,18 @@ Endpoints:
             a.  navigate to user/tests/test_user_api => here we'll add the test for creating token, bad credentials, no password
             b.  navigate to app/setting.py => token app is built in to drf, on installed app add the app rest_framework.authtoken
             c.  user/serializers.py =>add the AuthTokenSerializer
+            continuation
+            d.  navigate to user/tests/test_user_api.py add tests for manage user API => authetication is required for our ME endpoint
+            e.  now we are writing serializer to impliment the manage user API => the update function
+            f.  navigate to user/views.py and add the ManageUserView class
+            g.  navigate to user/urls.py and url patter me/ (endpoint)
+
+                        NOTE: Our test_user_api is broken into two; authorized and unauthorized; it is illustrated by the two classes in the file.
+
+    Summary:
+            1.  Designed our user API
+            2.  created a separate app for storing our user api
+            3.  implimented our create user endpoint
+            4.  we added authentication specifically token authentication
+            5.  added the api for managing the profile; which allows user to update and modify the user information
+            6   Reviewed API in browser using swagger
