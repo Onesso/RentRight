@@ -365,3 +365,26 @@ Endpoints:
 
 
                     NOTE: When we make a http request, it through the url.py, passed in to views.py the CreateUserView class, which interns calls the serializer that creates the object
+
+7. authentication
+        Types of authentication with drf
+            Basic -> user sends username and password in each request; the disadvantage is that the client has to store the credentials
+            Token -> we generate a token from the username and password and in each request we send the token with the request
+            JSON Web Token (JWT) - it is similar to token, it is advance, it uses an acecess and refresh token; the refresh token is the one that requires verification with the user credentials
+            Session -> stores the authentication details using cookies, commonly used in website
+
+        In our case we will be using Token authentication, why?
+            Balance of simplicity and security
+            Supported out of the box by DRF
+            well support by most clients
+
+        How Token works
+            Create token (have an endpoint that will take the username and the password to create the token)
+            Store the token on the client side (either throught session,local storage, cookie)
+            Include token on HTTP header (on api calls that requires authentication)
+
+            For logging out; it happens in the client; it is simple just delete the token
+
+            a.  navigate to user/tests/test_user_api => here we'll add the test for creating token, bad credentials, no password
+            b.  navigate to app/setting.py => token app is built in to drf, on installed app add the app rest_framework.authtoken
+            c.  user/serializers.py =>add the AuthTokenSerializer
