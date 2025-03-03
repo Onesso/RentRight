@@ -1,8 +1,12 @@
 """
 Test for models
 """
+from decimal import Decimal
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+
+from core import models  # other api we use models directly
 
 
 class Modeltests(TestCase):
@@ -49,3 +53,18 @@ class Modeltests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_create_unit(self):
+        """Test for creating property"""
+        user = get_user_model().objects.create_user(
+            'test@example.com',
+            'testpassword123'
+        )
+        unit = models.Unit.objects.create(
+            user=user,  # user that the unit belongs to
+            title="Sample Title",
+            # time_minutes=5,
+            price=Decimal('5.50'),
+            description='sample description',
+        )
+        self.assertEqual(str(unit), unit.title)

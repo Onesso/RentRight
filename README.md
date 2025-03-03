@@ -403,3 +403,22 @@ Endpoints:
             4.  we added authentication specifically token authentication
             5.  added the api for managing the profile; which allows user to update and modify the user information
             6   Reviewed API in browser using swagger
+
+# Building property API
+        Endpoints
+            1.  /properties/
+                GET - List all properties
+                POST - Create property
+            2.  /properties/<property_id>
+
+        APIView vs Viewsets
+            APIView - non-CRUD applications
+            Viewset - CRUD applications
+
+first thing first we should have a model for creating properties but we'll create a test for creating the model.
+
+        1.  navigate to core/test/test_models.py and write the test for creating the model
+        2.  navigate to core.models.py and write the class model for the Units.
+        3.  navigate to core/admin.py and enable/register the model
+        4.  since we have added a model we'll make migrations docker-compose run --rm app sh -c "python manage.py makemigrations" then do the migrations docker-compose run --rm app sh -c "python manage.py migrate"
+

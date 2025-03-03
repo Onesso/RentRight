@@ -54,3 +54,4 @@ class UserAdmin(BaseUserAdmin):
 # Registers the User model with the Django admin
 # interface using the custom UserAdmin class.
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Unit)
