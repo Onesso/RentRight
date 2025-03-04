@@ -421,4 +421,13 @@ first thing first we should have a model for creating properties but we'll creat
         2.  navigate to core.models.py and write the class model for the Units.
         3.  navigate to core/admin.py and enable/register the model
         4.  since we have added a model we'll make migrations docker-compose run --rm app sh -c "python manage.py makemigrations" then do the migrations docker-compose run --rm app sh -c "python manage.py migrate"
+        now we have created the model for the Unit and registered it in admin, we'll create an app for the Units
+        5.  on the terminal run: docker-compose run --rm app sh -c "python manage.py startapp Unit" and register the app on app/settings.py in the installed apps
+        6.  clean up the unit app. Remove the unwanted files
+        7.  write the test for the unit. at: app/unit/tests run the test which it should fail
+        8.  So to make the test pass create serializer.py inside app/unit and impliment the UnitSerializer class.
+        9.  navigate app/unit/views.py and impliment the UnitViewSet class
+        10.  create the app/unit/urls.py this is where we'll do our URL mappings. we will use Defaultrouter to dynamically generate url
+        11.  Register out unit/urls to the default app/app/urls.py  and finally run test and linting
+
 
