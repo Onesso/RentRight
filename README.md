@@ -429,5 +429,10 @@ first thing first we should have a model for creating properties but we'll creat
         9.  navigate app/unit/views.py and impliment the UnitViewSet class
         10.  create the app/unit/urls.py this is where we'll do our URL mappings. we will use Defaultrouter to dynamically generate url
         11.  Register out unit/urls to the default app/app/urls.py  and finally run test and linting
+        12.  write a test for getting details for a specific unit, unit/test_unit_api.py
+        13.  Impliment the test for getting details:
+                                a.  unit/serializers.py add a new class UnitDetailSerializer
+                                b.  unit/views.py add modify to suit
+        
 
 

@@ -12,9 +12,14 @@ from rest_framework.test import APIClient
 
 from core.models import Unit
 
-from unit.serializers import UnitSerializer
+from unit.serializers import (UnitSerializer, UnitDetailSerializer)
 
 UNITS_URL = reverse('unit:unit-list')
+
+
+def detail_url(unit_id):
+    """Create and return a unit detail url"""
+    return reverse('unit:unit-detail', args=[unit_id])
 
 
 # function returns default values to avoid repetition
@@ -84,4 +89,14 @@ class PrivateUnitAPITests(TestCase):
         units = Unit.objects.filter(user=self.user)
         serializer = UnitSerializer(units, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)
+
+    def test_get_unit_details(self):
+        """Test get unit details"""
+        unit = create_unit(user=self.user)
+
+        url = detail_url(unit.id)
+        res = self.client.get(url)
+
+        serializer = UnitDetailSerializer(unit)
         self.assertEqual(res.data, serializer.data)

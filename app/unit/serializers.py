@@ -11,5 +11,11 @@ class UnitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Unit
-        fields = ['id', 'title', 'description', 'price', 'link']
+        fields = ['id', 'title', 'price', 'link']
         read_only = ['id']
+
+
+class UnitDetailSerializer(UnitSerializer):
+    """serializer for units details view"""
+    class Meta(UnitSerializer.Meta):
+        fields = UnitSerializer.Meta.fields + ['description']
