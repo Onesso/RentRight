@@ -100,3 +100,18 @@ class PrivateUnitAPITests(TestCase):
 
         serializer = UnitDetailSerializer(unit)
         self.assertEqual(res.data, serializer.data)
+
+    def test_create_unit(self):
+        """Test creating a unit"""
+        payload = {
+            'title': 'sample unit',
+            'price': Decimal('54000.00'),
+        }
+        res = self.client.post(UNITS_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        unit = Unit.objects.get(id=res.data['id'])
+        # k stands for key and v for value
+        for k, v in payload.items():
+            self.assertEqual(getattr(unit, k), v)
+        self.assertEqual(unit.user, self.user)

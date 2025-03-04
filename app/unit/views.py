@@ -32,6 +32,10 @@ class UnitViewSet(viewsets.ModelViewSet):
 
         return self.serializer_class
 
+    def perform_create(self, serializer):
+        """Create a new unit and is attached to the user who created it"""
+        serializer.save(user=self.request.user)
+
     # start modify
     @action(detail=False, methods=['get'],
             permission_classes=[IsAuthenticated])

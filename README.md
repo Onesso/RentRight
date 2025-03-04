@@ -433,6 +433,8 @@ first thing first we should have a model for creating properties but we'll creat
         13.  Impliment the test for getting details:
                                 a.  unit/serializers.py add a new class UnitDetailSerializer
                                 b.  unit/views.py add modify to suit
-        
+        14.  write test for creating Units, unit/tests/test_unit_api.py
+        15.  impliment the create unit feature; navigate to unit/views.py and add the method to save the correct user to the units that they created
+
 
 
