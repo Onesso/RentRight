@@ -404,7 +404,7 @@ Endpoints:
             5.  added the api for managing the profile; which allows user to update and modify the user information
             6   Reviewed API in browser using swagger
 
-# Building property API
+# Building unit API
         Endpoints
             1.  /properties/
                 GET - List all properties
@@ -442,6 +442,37 @@ first thing first we should have a model for creating properties but we'll creat
                 b.  created a unit API
                     the API performes the CRUD functionality for the authenticated user
                 c.  Tested the API in the browser
+
+# Building tags API
+
+In this section
+
+    1.  Add ability to add unit tags
+    2.  Create model for tags
+    3.  Add tag API endpoint
+    4.  update the unit endpoint i.e. to be able to add and list tags
+
+Tag Model
+    1.  name - Name of tag to create
+    2.  user - User who created/owns tags
+
+Tag Endpoint
+    /api/unit/tag
+        POST - Creating tag
+        PUT/PATCH - Updating tags
+        DELETE - Removing tag
+        GET - List available tags
+
+fast thing first we should add a tag model to our database and perform migrations
+
+            1.  navigate to app/core/tests/test_models.py and add test for our tag models
+            2.  naviagte to app/core/models.py and add the tag model
+            3.  Appy migrations makemigrations
+            4.  Register our model in app/core/admin
+            5.  write test for listing tag
+            6.  Lets impliment the tag listing api, first unit/serializer.py impliment the TagSerializer
+            7.  navigate to app/unit/views.py and impliment the TagViewSet to perform the CRUD functionalities to Tags
+            8.  Create a mapping url in the unit/urls.py
 
 
 

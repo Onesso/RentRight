@@ -1,7 +1,11 @@
 """
 Views for unit api
 """
-from rest_framework import viewsets
+from rest_framework import (
+    viewsets,
+    mixins,  # gives support to add additional functionalites
+    )
+
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
@@ -10,7 +14,10 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 # end
 
-from core.models import Unit
+from core.models import (
+    Unit,
+    Tag,
+    )
 from unit import serializers
 
 
@@ -45,3 +52,16 @@ class UnitViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(units, many=True)
         return Response(serializer.data)
     # end
+
+
+class TagViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """Manage tags in the database"""
+    serializer_class = serializers.TagSerializer
+    queryset = Tag.objects.all()
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    # this method overrides the default queryset to filter
+    def get_queryset(self):
+        """Filter queryset to authenticated user"""
+        return self.queryset.filter(user=self.request.user).order_by('-name')

@@ -9,6 +9,12 @@ from django.contrib.auth import get_user_model
 from core import models  # other api we use models directly
 
 
+# a helper function that creates a test user to assign to our tags
+def create_user(email="test@example.com", password="testpass123"):
+    """create and return a generic user"""
+    return get_user_model().objects.create_user(email, password)
+
+
 class Modeltests(TestCase):
     """Test model"""
 
@@ -68,3 +74,10 @@ class Modeltests(TestCase):
             description='sample description',
         )
         self.assertEqual(str(unit), unit.title)
+
+    def test_create_tag(self):
+        """Test creating a tag is successfull"""
+        user = create_user()
+        tag = models.Tag.objects.create(user=user, name='Tag1')
+
+        self.assertEqual(str(tag), tag.name)

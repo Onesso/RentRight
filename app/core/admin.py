@@ -55,3 +55,4 @@ class UserAdmin(BaseUserAdmin):
 # interface using the custom UserAdmin class.
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Unit)
+admin.site.register(models.Tag)

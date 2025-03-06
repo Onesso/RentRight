@@ -61,7 +61,21 @@ class Unit(models.Model):
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     link = models.CharField(max_length=255, blank=True)
+    tags = models.ManyToManyField('Tag')
 
     def __str__(self):
         return self.title
         # This allows us to display the title in django admin instead of id
+
+
+class Tag(models.Model):
+    """Tag for filtering units"""
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return self.name
+    # This return the string representation we were testing
