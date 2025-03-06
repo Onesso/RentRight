@@ -478,6 +478,8 @@ fast thing first we should add a tag model to our database and perform migration
 
             9.  write test to update our tag. this is written inside test_tag_api.py
             10. impliment the update functionality, navigate to unit/views.py and update the class
+            11. write a test for deleting out tag. inside test_tag_api.py
+            12. impliemnt the delete functionality, it is wrtten in unit/views.py
 
 
 

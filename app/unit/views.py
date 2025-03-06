@@ -54,7 +54,8 @@ class UnitViewSet(viewsets.ModelViewSet):
     # end
 
 
-class TagViewSet(mixins.UpdateModelMixin,
+class TagViewSet(mixins.DestroyModelMixin,
+                 mixins.UpdateModelMixin,
                  mixins.ListModelMixin,
                  viewsets.GenericViewSet):
     """Manage tags in the database"""
