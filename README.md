@@ -474,6 +474,10 @@ fast thing first we should add a tag model to our database and perform migration
             7.  navigate to app/unit/views.py and impliment the TagViewSet to perform the CRUD functionalities to Tags
             8.  Create a mapping url in the unit/urls.py
 
+            continuation
+
+            9.  write test to update our tag. this is written inside test_tag_api.py
+            10. impliment the update functionality, navigate to unit/views.py and update the class
 
 
 
