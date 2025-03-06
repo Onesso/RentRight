@@ -37,6 +37,10 @@ def create_unit(user, **params):
     return unit
 
 
+def create_user(**params):
+    return get_user_model().objects.create_user(**params)
+
+
 class PublicUnitAPITests(TestCase):
     """Test unauthenticated API request"""
 
@@ -55,10 +59,8 @@ class PrivateUnitAPITests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = get_user_model().objects.create_user(
-            'test@example.com',
-            'password123',
-        )
+        self.user = create_user(email='test@example.com',
+                                password='testpassword123')
         self.client.force_authenticate(self.user)
 
     # user in logged in and get a list of all units
@@ -77,10 +79,8 @@ class PrivateUnitAPITests(TestCase):
     # user is logged in but gets a list of all his units
     def test_units_list_limited_to_user(self):
         """Test list of all units that are his/hers"""
-        other_user = get_user_model().objects.create_user(
-            'otheruser@example.com',
-            'otheruserpassword123',
-        )
+        other_user = create_user(
+            email='otheruser@example.com', password='otheruserpassword123')
         create_unit(user=other_user)
         create_unit(user=self.user)
 
@@ -115,3 +115,87 @@ class PrivateUnitAPITests(TestCase):
         for k, v in payload.items():
             self.assertEqual(getattr(unit, k), v)
         self.assertEqual(unit.user, self.user)
+
+    # further robust testing
+    def test_partial_update(self):
+        """Test partial update of a unit"""
+        original_link = 'https://example.com/unit.pdf'
+        unit = create_unit(
+            user=self.user,
+            title='Sample unit title',
+            link=original_link,
+        )
+
+        payload = {'title': 'New unit title'}
+        url = detail_url(unit.id)
+        res = self.client.patch(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        unit.refresh_from_db()
+        self.assertEqual(unit.title, payload['title'])
+        self.assertEqual(unit.link, original_link)
+        self.assertEqual(unit.user, self.user)
+
+    def test_full_update(self):
+        """Test full update of unit"""
+        unit = create_unit(
+            user=self.user,
+            title='sample unit title',
+            link='https://example.com/unit.pdf',
+            price=Decimal('34000'),
+            description='sample unit description',
+        )
+
+        payload = {
+            'title': 'New unit title',
+            'link': 'https://example.com/new-unit',
+            'description': 'New unit description',
+            'price': Decimal('35000'),
+        }
+        url = detail_url(unit.id)
+        res = self.client.put(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        unit.refresh_from_db()
+        for k, v in payload.items():
+            self.assertEqual(getattr(unit, k), v)
+
+        self.assertEqual(unit.user, self.user)
+
+    # can not change the user associated with a unit
+    def test_update_user_returns_error(self):
+        """Test changing the unit user result to an error"""
+        new_user = create_user(
+            email='newuser@example.com',
+            password='pass123@')
+        unit = create_unit(user=self.user)
+
+        payload = {'user': new_user.id}
+        url = detail_url(unit.id)
+        self.client.patch(url, payload)
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.user, self.user)
+
+    def test_delete_unit(self):
+        """Test deleting a unit successful"""
+        unit = create_unit(user=self.user)
+
+        url = detail_url(unit.id)
+        res = self.client.delete(url)
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Unit.objects.filter(id=unit.id).exists())
+
+    def test_delete_other_user_unit(self):
+        """Test trying to delete other user unit gives error"""
+        new_user = create_user(
+            email='newuser@example.com',
+            password='pass123#')
+        unit = create_unit(user=new_user)
+
+        url = detail_url(unit.id)
+        res = self.client.delete(url)
+
+        self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(Unit.objects.filter(id=unit.id).exists())

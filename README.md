@@ -435,6 +435,14 @@ first thing first we should have a model for creating properties but we'll creat
                                 b.  unit/views.py add modify to suit
         14.  write test for creating Units, unit/tests/test_unit_api.py
         15.  impliment the create unit feature; navigate to unit/views.py and add the method to save the correct user to the units that they created
+        16.  Add additional tests
+
+        Summary for this section
+                a.  implimented the model for storing units
+                b.  created a unit API
+                    the API performes the CRUD functionality for the authenticated user
+                c.  Tested the API in the browser
+
 
 
 
