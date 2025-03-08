@@ -245,3 +245,44 @@ class PrivateUnitAPITests(TestCase):
                 user=self.user,
             ).exists()
             self.assertTrue(exists)
+
+    # when updating a unit u can also add a tag
+    def test_create_tag_on_update(self):
+        """Creating a tag when updating unit"""
+        unit = create_unit(user=self.user)
+
+        payload = {'tags': [{'name': 'tag1'}]}
+        url = detail_url(unit.id)
+        res = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        new_tag = Tag.objects.get(user=self.user, name='tag1')
+        self.assertIn(new_tag, unit.tags.all())
+
+    def test_update_unt_assign_tag(self):
+        """Test assign an existing tag when updating a unit"""
+        tag_one = Tag.objects.create(user=self.user, name='One')
+        unit = create_unit(user=self.user)
+        unit.tags.add(tag_one)
+
+        tag_two = Tag.objects.create(user=self.user, name='Two')
+        payload = {'tags': [{'name': 'Two'}]}
+        url = detail_url(unit.id)
+        res = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertIn(tag_two, unit.tags.all())
+        self.assertNotIn(tag_one, unit.tags.all())
+
+    def test_clear_unit_tags(self):
+        """Test clear unit tags"""
+        tag_one = Tag.objects.create(user=self.user, name='one')
+        unit = create_unit(user=self.user)
+        unit.tags.add(tag_one)
+
+        payload = {'tags': []}
+        url = detail_url(unit.id)
+        res = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(unit.tags.count(), 0)

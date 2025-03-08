@@ -489,6 +489,18 @@ fast thing first we should add a tag model to our database and perform migration
                 read only by default
                 but you customized to enable writing
             13. Adding test in test_unit_api.py test_create_unit_with_tag
+            14. implimented the test
+            15. Add test create tag when updating a unit
+
+                NOTE: by default in nested serializers django does not support read therefore we must override some methods to enable reading
+
+            16. impliment feature to support updating tag on a unit
+
+                Summary:
+                        a.  implimentd a tag model
+                        b.  added tags API to perform the crud operations
+                        c.  updated unit end points to use tag
+
 
 
 
