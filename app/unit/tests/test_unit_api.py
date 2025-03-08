@@ -10,7 +10,9 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core.models import Unit
+from core.models import (
+    Unit,
+    Tag)
 
 from unit.serializers import (UnitSerializer, UnitDetailSerializer)
 
@@ -199,3 +201,47 @@ class PrivateUnitAPITests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
         self.assertTrue(Unit.objects.filter(id=unit.id).exists())
+
+    def test_create_unit_with_new_tags(self):
+        """Test creating a unit with tag."""
+        payload = {
+            'title': 'new unit title',
+            'price': Decimal('4300.50'),
+            'tags': [{'name': 'tag 1'}, {'name': 'tag2'}]
+        }
+        res = self.client.post(UNITS_URL, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        units = Unit.objects.filter(user=self.user)
+        self.assertEqual(units.count(), 1)
+        unit = units[0]
+        self.assertEqual(unit.tags.count(), 2)
+        for tag in payload['tags']:
+            exists = unit.tags.filter(
+                name=tag['name'],
+                user=self.user,
+            ).exists()
+            self.assertTrue(exists)
+
+    def test_create_unit_with_existing_tag(self):
+        """Test creating a unit with existing tags"""
+        tag_tag2 = Tag.objects.create(user=self.user, name='tag2')
+        payload = {
+            'title': 'new unit title',
+            'price': Decimal('4300.50'),
+            'tags': [{'name': 'tag 1'}, {'name': 'tag2'}]
+        }
+        res = self.client.post(UNITS_URL, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        units = Unit.objects.filter(user=self.user)
+        self.assertEqual(units.count(), 1)
+        unit = units[0]
+        self.assertEqual(unit.tags.count(), 2)
+        self.assertIn(tag_tag2, unit.tags.all())
+        for tag in payload['tags']:
+            exists = unit.tags.filter(
+                name=tag['name'],
+                user=self.user,
+            ).exists()
+            self.assertTrue(exists)

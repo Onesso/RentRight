@@ -482,4 +482,13 @@ fast thing first we should add a tag model to our database and perform migration
             12. impliemnt the delete functionality, it is wrtten in unit/views.py
 
 
+            Nested serializer
+                serializer inside a serializer i.e. a serializer may have a field and that field may link to anther seriaizer
+
+            Limitation of nested serialiser
+                read only by default
+                but you customized to enable writing
+            13. Adding test in test_unit_api.py test_create_unit_with_tag
+
+
 
