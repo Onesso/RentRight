@@ -501,6 +501,21 @@ fast thing first we should add a tag model to our database and perform migration
                         b.  added tags API to perform the crud operations
                         c.  updated unit end points to use tag
 
+# Building details API
+
+            FOCUS
+                1.  Ability to add details to our units
+                2.  Create a model for details
+                3.  add details API
+                4.  Update unit endpoint
+                    Create details
+                    Manage details
+
+we start by adding the test for model then proceed to building the model.
+                1.  inside app/core/tests/test_models.py write test to create details model
+                2.  inside app/core/models.py write the Detail class model
+                3.  since we have modify the file models.py we must makemigrations; docker-compose run --rm app sh -c "python manage.py makemigrations"
+                4.  Add the model to the admin page; navigate to app/core/admin.py and register the model there
 
 
 

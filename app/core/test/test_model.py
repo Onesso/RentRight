@@ -81,3 +81,10 @@ class Modeltests(TestCase):
         tag = models.Tag.objects.create(user=user, name='Tag1')
 
         self.assertEqual(str(tag), tag.name)
+
+    def test_create_details(self):
+        """Test creating a details is succeessfull"""
+        user = create_user()
+        details = models.Detail.objects.create(user=user, name='Details')
+
+        self.assertEqual(str(details), details.name)
