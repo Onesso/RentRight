@@ -6,7 +6,17 @@ from rest_framework import serializers
 from core.models import (
     Unit,
     Tag,
+    Detail
     )
+
+
+class DetailSerializer(serializers.ModelSerializer):
+    """Serializer for details"""
+
+    class Meta:
+        model = Detail
+        fields = ['id', 'name']
+        read_only = ['id']
 
 
 class TagSerializer(serializers.ModelSerializer):

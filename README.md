@@ -516,6 +516,11 @@ we start by adding the test for model then proceed to building the model.
                 2.  inside app/core/models.py write the Detail class model
                 3.  since we have modify the file models.py we must makemigrations; docker-compose run --rm app sh -c "python manage.py makemigrations"
                 4.  Add the model to the admin page; navigate to app/core/admin.py and register the model there
+                5.  create a test file for details in unit/test/test_details_api.py; retrieving all details
+                6.  Test done now implimentation is required; app/unit/seriaizer; implient the DetailSerializer
+                7.  Impliment the view; app/unit/views.py
+                8.  register the view to the urls
+                9.  Run the unit test to check if everything is working properly
 
 
 

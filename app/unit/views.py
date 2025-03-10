@@ -17,6 +17,7 @@ from rest_framework.response import Response
 from core.models import (
     Unit,
     Tag,
+    Detail,
     )
 from unit import serializers
 
@@ -65,6 +66,19 @@ class TagViewSet(mixins.DestroyModelMixin,
     permission_classes = [IsAuthenticated]
 
     # this method overrides the default queryset to filter
+    def get_queryset(self):
+        """Filter queryset to authenticated user"""
+        return self.queryset.filter(user=self.request.user).order_by('-name')
+
+
+class DetailViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """Manage details in the database"""
+    serializer_class = serializers.DetailSerializer
+    queryset = Detail.objects.all()
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    # ovverides queryset to filter for authenticates user
     def get_queryset(self):
         """Filter queryset to authenticated user"""
         return self.queryset.filter(user=self.request.user).order_by('-name')

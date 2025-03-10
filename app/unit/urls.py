@@ -15,6 +15,7 @@ from unit import views
 router = DefaultRouter()
 router.register('units', views.UnitViewSet)
 router.register('tags', views.TagViewSet)
+router.register('details', views.DetailViewSet)
 
 app_name = 'unit'
 
