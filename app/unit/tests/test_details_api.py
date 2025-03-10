@@ -15,6 +15,11 @@ from unit.serializers import DetailSerializer
 DETAILS_URL = reverse('unit:detail-list')
 
 
+def detail_url(detail_id):
+    """create and return details detail_url"""""
+    return reverse('unit:detail-detail', args=[detail_id])
+
+
 def create_user(email='test@example.com', password='test123'):
     """Create and return a user"""
     return get_user_model().objects.create_user(email=email, password=password)
@@ -53,7 +58,7 @@ class PrivateDetailsAPITestCase(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 
-    def test_details_limeted_to_user(self):
+    def test_details_limited_to_user(self):
         """test list details limited to the authenticated user"""
         user2 = create_user(email='user2@exmple.com')
         Detail.objects.create(user=user2, name='deteil_user2')
@@ -65,3 +70,15 @@ class PrivateDetailsAPITestCase(TestCase):
         self.assertEqual(len(res.data), 1)
         self.assertEqual(res.data[0]['name'], details.name)
         self.assertEqual(res.data[0]['id'], details.id)
+
+    def test_update_detail(self):
+        """Test for updating a detail"""
+        detail = Detail.objects.create(user=self.user, name='detail1')
+
+        payload = {'name': 'detail2'}
+        url = detail_url(detail.id)
+        res = self.client.patch(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        detail.refresh_from_db()
+        self.assertEqual(detail.name, payload['name'])

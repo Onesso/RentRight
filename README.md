@@ -512,6 +512,8 @@ fast thing first we should add a tag model to our database and perform migration
                     Manage details
 
 we start by adding the test for model then proceed to building the model.
+
+            intrurctions
                 1.  inside app/core/tests/test_models.py write test to create details model
                 2.  inside app/core/models.py write the Detail class model
                 3.  since we have modify the file models.py we must makemigrations; docker-compose run --rm app sh -c "python manage.py makemigrations"
@@ -521,6 +523,9 @@ we start by adding the test for model then proceed to building the model.
                 7.  Impliment the view; app/unit/views.py
                 8.  register the view to the urls
                 9.  Run the unit test to check if everything is working properly
+                10. write test for updating details; test_details_api
+                11. impliment the test; unit/views.py on the list of base classes, in the main class DetailsViewSet() add (mixins.UpdateModelMixin)
+                        Note: No new changes is added to the router (urls.py) why? because the purpose of the router is to figure out the url based on the viewset
 
 
 
