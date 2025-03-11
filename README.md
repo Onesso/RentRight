@@ -526,6 +526,9 @@ we start by adding the test for model then proceed to building the model.
                 10. write test for updating details; test_details_api
                 11. impliment the test; unit/views.py on the list of base classes, in the main class DetailsViewSet() add (mixins.UpdateModelMixin)
                         Note: No new changes is added to the router (urls.py) why? because the purpose of the router is to figure out the url based on the viewset
+                12. test delete details
+                13. impliment the test
+                14. Creating details through the unit api; the unit test is written inside the test_unit_api.py file
 
 
 

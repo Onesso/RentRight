@@ -12,7 +12,8 @@ from rest_framework.test import APIClient
 
 from core.models import (
     Unit,
-    Tag)
+    Tag,
+    Detail,)
 
 from unit.serializers import (UnitSerializer, UnitDetailSerializer)
 
@@ -286,3 +287,45 @@ class PrivateUnitAPITests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(unit.tags.count(), 0)
+
+    def test_creating_unit_with_new_detail(self):
+        """Test creating a unit with new detail"""
+        payload = {
+            'title': 'Title 1',
+            'price': Decimal('2345.50'),
+            'details': [{'name': 'details one'}, {'name': 'detail two'}]
+        }
+        res = self.client.post(UNITS_URL, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        units = Unit.objects.filter(user=self.user)
+        self.assertEqual(units.count(), 1)
+        unit = units[0]
+        self.assertEqual(unit.details.count(), 2)
+        for detail in payload['details']:
+            exists = unit.details.filter(name=detail['name'],
+                                         user=self.user).exists()
+            self.assertTrue(exists)
+
+    # creating units with some existing details
+    # to acertain that it will not dublicate
+    def test_create_unit_with_existing_details(self):
+        """test creating unit with existing details"""
+        detail = Detail.objects.create(user=self.user, name='detail 1')
+        payload = {
+            'title': 'title 1',
+            'price': '34532.64',
+            'details': [{'name': 'detail 1'}, {'name': 'name2'}]
+        }
+        res = self.client.post(UNITS_URL, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        units = Unit.objects.filter(user=self.user)
+        self.assertEqual(units.count(), 1)
+        unit = units[0]
+        self.assertEqual(unit.details.count(), 2)  # if 3 dublicate true
+        self.assertIn(detail, unit.details.all())
+        for detail in payload['details']:  # looping details payload
+            exists = unit.details.filter(name=detail['name'],
+                                         user=self.user).exists()
+            self.assertTrue(exists)

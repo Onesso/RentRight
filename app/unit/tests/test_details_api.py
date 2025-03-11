@@ -82,3 +82,13 @@ class PrivateDetailsAPITestCase(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         detail.refresh_from_db()
         self.assertEqual(detail.name, payload['name'])
+
+    def test_delete_detail(self):
+        """Test for deleting details"""
+        detail = Detail.objects.create(user=self.user, name='details')
+        url = detail_url(detail.id)
+        res = self.client.delete(url)
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        details = Detail.objects.filter(user=self.user)
+        self.assertFalse(details.exists())
