@@ -533,5 +533,17 @@ we start by adding the test for model then proceed to building the model.
                 16. Write test for updating units details and test clearing unit details
                 17. impliment update unit details
 
+                        Refactoring the code:
+                                            a.  Restructure code
+                                            b.  to improve performance
+                                            c.  TDD makes refactoring easy; we can still run the test to make sure the code still works
+
+                        Summary:
+                                a.  added the details model
+                                b.  implimented details API
+                                c.  Updated unit API
+                                d.  Refactored the code
+                                e.  Tested in browser
+
 
 

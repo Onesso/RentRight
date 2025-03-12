@@ -55,13 +55,11 @@ class UnitViewSet(viewsets.ModelViewSet):
     # end
 
 
-class TagViewSet(mixins.DestroyModelMixin,
-                 mixins.UpdateModelMixin,
-                 mixins.ListModelMixin,
-                 viewsets.GenericViewSet):
-    """Manage tags in the database"""
-    serializer_class = serializers.TagSerializer
-    queryset = Tag.objects.all()
+class BaseUnitAttrViewSet(mixins.DestroyModelMixin,
+                          mixins.UpdateModelMixin,
+                          mixins.ListModelMixin,
+                          viewsets.GenericViewSet):
+    """Base view set for unit attribute"""
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -71,17 +69,13 @@ class TagViewSet(mixins.DestroyModelMixin,
         return self.queryset.filter(user=self.request.user).order_by('-name')
 
 
-class DetailViewSet(mixins.DestroyModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.ListModelMixin,
-                    viewsets.GenericViewSet):
+class TagViewSet(BaseUnitAttrViewSet):
+    """Manage tags in the database"""
+    serializer_class = serializers.TagSerializer
+    queryset = Tag.objects.all()
+
+
+class DetailViewSet(BaseUnitAttrViewSet):
     """Manage details in the database"""
     serializer_class = serializers.DetailSerializer
     queryset = Detail.objects.all()
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    # overides queryset to filter for authenticates user
-    def get_queryset(self):
-        """Filter queryset to authenticated user"""
-        return self.queryset.filter(user=self.request.user).order_by('-name')
