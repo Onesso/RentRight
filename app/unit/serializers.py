@@ -78,10 +78,15 @@ class UnitSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """updating a unit"""
+        # we explicity asign no to cater for empty tags and detais
         tags = validated_data.pop('tags', None)
+        details = validated_data.pop('details', None)
         if tags is not None:
             instance.tags.clear()
             self._get_or_create_tags(tags, instance)
+        if details is not None:
+            instance.details.clear()
+            self._get_or_create_details(details, instance)
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)

@@ -329,3 +329,43 @@ class PrivateUnitAPITests(TestCase):
             exists = unit.details.filter(name=detail['name'],
                                          user=self.user).exists()
             self.assertTrue(exists)
+
+    def test_create_unit_on_update(self):
+        """Creating a detail when updating the unit"""
+        unit = create_unit(user=self.user)
+
+        payload = {'details': [{'name': 'Limes'}]}
+        url = detail_url(unit.id)
+        res = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        new_detail = Detail.objects.get(user=self.user, name='Limes')
+        self.assertIn(new_detail, unit.details.all())
+
+    def test_update_unit_assign_detail(self):
+        """Test assing an existing detail when updating a unit"""
+        detail1 = Detail.objects.create(user=self.user, name='detail1')
+        unit = create_unit(user=self.user)
+        unit.details.add(detail1)
+
+        detail2 = Detail.objects.create(user=self.user, name='detail2')
+        payload = {'details': [{'name': 'detail2'}]}
+        url = detail_url(unit.id)
+        res = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertIn(detail2, unit.details.all())
+        self.assertNotIn(detail1, unit.details.all())
+
+    def test_clear_unit_details(self):
+        """test clearing unt details"""
+        details = Detail.objects.create(user=self.user, name='detail')
+        unit = create_unit(user=self.user)
+        unit.details.add(details)
+
+        payload = {'details': []}
+        url = detail_url(unit.id)
+        res = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(unit.details.count(), 0)

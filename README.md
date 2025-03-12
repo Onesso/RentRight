@@ -529,6 +529,9 @@ we start by adding the test for model then proceed to building the model.
                 12. test delete details
                 13. impliment the test
                 14. Creating details through the unit api; the unit test is written inside the test_unit_api.py file
+                15. impliment the test on the serializer.py impliment the function _get_or_create_detail
+                16. Write test for updating units details and test clearing unit details
+                17. impliment update unit details
 
 
 
