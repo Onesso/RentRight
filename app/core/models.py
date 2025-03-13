@@ -1,6 +1,9 @@
 """
 Database models
 """
+import uuid
+import os  # file path management functions
+
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import (
@@ -11,6 +14,18 @@ from django.contrib.auth.models import (
     PermissionsMixin,
     BaseUserManager,  # handles creation of user and superusers
 )
+
+
+# function that will generate the path to image
+# that we upload; where we are going to store
+def unit_image_file_path(instance, filename):
+    """Generate file path for new unit image"""
+    extention = os.path.splitext(filename)[1]
+    filename = f'{uuid.uuid4()}{extention}'
+
+    return os.path.join('uploads', 'unit', filename)
+    # this is done to be comformtable with the os we are running in
+
 
 """create user model manager"""
 
@@ -63,6 +78,7 @@ class Unit(models.Model):
     link = models.CharField(max_length=255, blank=True)
     tags = models.ManyToManyField('Tag')
     details = models.ManyToManyField('Detail')
+    image = models.ImageField(null=True, upload_to=unit_image_file_path)
 
     def __str__(self):
         return self.title

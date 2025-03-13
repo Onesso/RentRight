@@ -16,7 +16,7 @@ class DetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Detail
         fields = ['id', 'name']
-        read_only = ['id']
+        read_only_fields = ['id']
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -25,7 +25,7 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ['id', 'name']
-        read_only = ['id']
+        read_only_fields = ['id']
 
 
 class UnitSerializer(serializers.ModelSerializer):
@@ -98,4 +98,14 @@ class UnitSerializer(serializers.ModelSerializer):
 class UnitDetailSerializer(UnitSerializer):
     """serializer for units details view"""
     class Meta(UnitSerializer.Meta):
-        fields = UnitSerializer.Meta.fields + ['description']
+        fields = UnitSerializer.Meta.fields + ['description', 'image']
+
+
+class UnitImageSerializer(serializers.ModelSerializer):
+    """serializers for uploading images to units"""
+
+    class Meta:
+        model = Unit
+        fields = ['id', 'image']
+        read_only_fields = ['id']
+        extra_kwargs = {'image': {'required': True}}
